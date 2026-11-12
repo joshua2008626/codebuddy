@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  CodeBuddy design tokens.
+  Colors are RGB triplets so Tailwind can apply opacity (bg-ink/60 etc.).
+  Dark is the default; light is opted into with <html data-theme="light">.
+*/
+:root,
+:root[data-theme="dark"] {
+  --c-ink: 10 14 26;
+  --c-panel: 15 21 38;
+  --c-raised: 22 30 52;
+  --c-line: 29 38 64;
+  --c-fg: 230 234 245;
+  --c-muted: 139 149 179;
+  --c-blue: 76 111 255;
+  --c-violet: 139 92 246;
+  --c-cyan: 34 211 238;
+  --c-ok: 52 211 153;
+  --c-danger: 248 113 113;
+  --c-amber: 251 191 36;
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --c-ink: 246 248 252;
+  --c-panel: 255 255 255;
+  --c-raised: 238 242 250;
+  --c-line: 218 224 238;
+  --c-fg: 15 23 42;
+  --c-muted: 91 102 130;
+  --c-blue: 52 84 224;
+  --c-violet: 109 64 220;
+  --c-cyan: 8 145 178;
+  --c-ok: 5 150 105;
+  --c-danger: 220 38 38;
+  --c-amber: 180 110 0;
+  color-scheme: light;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-ink text-fg font-sans antialiased;
+    font-feature-settings: "ss01", "cv11";
+    text-rendering: optimizeLegibility;
+  }
+  /* Visible keyboard focus everywhere; mouse users do not see it. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--c-cyan));
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  ::selection {
+    background: rgb(var(--c-violet) / 0.35);
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-chip px-4 py-2.5 text-sm font-medium
+      transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-volt text-white hover:bg-volt/90;
+  }
+  .btn-ghost {
+    @apply btn border border-line text-fg hover:bg-raised;
+  }
+  .panel {
+    @apply rounded-panel border border-line bg-panel;
+  }
+}
+
+/* Syntax token colors shared by the landing-page code previews (Monaco has its own theme). */
+.tok-kw { color: rgb(var(--c-violet)); }
+.tok-str { color: rgb(var(--c-cyan)); }
+.tok-num { color: rgb(var(--c-amber)); }
+.tok-com { color: rgb(var(--c-muted)); font-style: italic; }
+.tok-fn { color: rgb(var(--c-blue)); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

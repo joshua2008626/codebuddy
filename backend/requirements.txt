@@ -1,0 +1,11 @@
+# Web framework
+fastapi>=0.115
+uvicorn[standard]>=0.32
+pydantic>=2.9
+# HTTP client used to call Judge0 and the LLM API
+httpx>=0.27
+# Database (passwords use scrypt from the standard library; sessions are random tokens, so no JWT or bcrypt)
+SQLAlchemy>=2.0
+psycopg[binary]>=3.2
+# Tests
+pytest>=8.3
