@@ -1,6 +1,10 @@
 import type { Monaco } from "@monaco-editor/react";
 import type { LangId } from "./languages";
 
+/** The two Monaco shapes used below, typed here so no extra Monaco type package has to resolve at build time. */
+interface CursorPosition { lineNumber: number; column: number }
+interface WordSource { getWordUntilPosition(position: CursorPosition): { startColumn: number; endColumn: number } }
+
 /** Snippets offered through Monaco's completion list, on top of its built-in word completion. */
 const SNIPPETS: Record<LangId, { label: string; detail: string; body: string }[]> = {
   python: [
@@ -84,7 +88,7 @@ export function setupMonaco(monaco: Monaco) {
 
   (Object.keys(SNIPPETS) as LangId[]).forEach((lang) => {
     monaco.languages.registerCompletionItemProvider(lang, {
-      provideCompletionItems(model, position) {
+      provideCompletionItems(model: WordSource, position: CursorPosition) {
         const word = model.getWordUntilPosition(position);
         const range = {
           startLineNumber: position.lineNumber,
